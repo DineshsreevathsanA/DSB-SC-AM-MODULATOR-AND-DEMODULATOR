@@ -62,61 +62,62 @@ Note: Keep all the switch faults in off position
 <img width="503" height="479" alt="image" src="https://github.com/user-attachments/assets/9f4fdea5-8f1d-44ae-a75a-8c3737088c0a" />
 
 ## PROGRAM:
-  clc;  
-  clear;  
-  close;  
+   clc;  
+   clear;  
+   close;  
   
-  Am = 8.8;   
-  fm = 863;   
-  fs = 863000;   
-  fc = 8630;   
-  Ac = 17.6;   
-  t = 0:1/fs:2/fm;  
+   Am = 8.8;   
+   fm = 863;   
+   fs = 863000;   
+   fc = 8630;   
+   Ac = 17.6;   
+   t = 0:1/fs:2/fm;  
   
-  m = Am * cos(2 * %pi * fm * t);  
-  subplot(4,1,1);  
-  plot(t, m);  
-  title('Message Signal');  
-  xlabel('Time (s)');  
-  ylabel('Amplitude');  
+   m = Am * cos(2 * %pi * fm * t);  
+   subplot(4,1,1);  
+   plot(t, m);  
+   title('Message Signal');  
+   xlabel('Time (s)');  
+   ylabel('Amplitude');  
   
-  c = Ac * cos(2 * %pi * fc * t);  
-  subplot(4,1,2);  
-  plot(t, c);  
-  title('Carrier Signal');  
-  xlabel('Time (s)');  
-  ylabel('Amplitude');   
-  
-  
-  s1 = (Ac + m) .* cos(2 * %pi * fc * t);  
-  s2 = (Ac - m) .* cos(2 * %pi * fc * t);  
-  s  = s1 - s2;  
-  subplot(4,1,3);  
-  plot(t, s);  
-  title('DSB-SC Modulated Signal');  
-  xlabel('Time (s)');  
-  ylabel('Amplitude');  
+   c = Ac * cos(2 * %pi * fc * t);  
+   subplot(4,1,2);  
+   plot(t, c);  
+   title('Carrier Signal');  
+   xlabel('Time (s)');  
+   ylabel('Amplitude');   
   
   
-  demod_raw = s .* cos(2 * %pi * fc * t);  
+   s1 = (Ac + m) .* cos(2 * %pi * fc * t);  
+   s2 = (Ac - m) .* cos(2 * %pi * fc * t);  
+   s  = s1 - s2;  
+   subplot(4,1,3);  
+   plot(t, s);  
+   title('DSB-SC Modulated Signal');  
+   xlabel('Time (s)');  
+   ylabel('Amplitude');  
   
   
-  N = 100;  
-  h = ones(1, N) / N;  
-  demod = filter(h, 1, demod_raw);  
-  delay = floor((N-1)/2);  
-  demod = demod(delay+0.1:$);  
-  t = t(1:length(demod));  
+   demod_raw = s .* cos(2 * %pi * fc * t);  
   
   
-  demod = demod - mean(demod);  
-  demod = demod / max(abs(demod)) * Am;  
+   N = 100;  
+   h = ones(1, N) / N;  
+   demod = filter(h, 1, demod_raw);  
+   delay = floor((N-1)/2);  
+   demod = demod(delay+0.1:$);  
+   t = t(1:length(demod));  
+    
+   
+   demod = demod - mean(demod);  
+   demod = demod / max(abs(demod)) * Am;  
   
-  subplot(4,1,4);  
-  plot(t, demod);  
-  title('Demodulated Signal');  
-  xlabel('Time (s)');  
-  ylabel('Amplitude');  
+   subplot(4,1,4);  
+   plot(t, demod);  
+   title('Demodulated Signal');  
+   xlabel('Time (s)');  
+   ylabel('Amplitude');  
+   
 ## TABULATION:
 <img width="1022" height="1068" alt="image" src="https://github.com/user-attachments/assets/bcd9a996-b89d-45bc-bcb7-8f2a4708579c" />
 
